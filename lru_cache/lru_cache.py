@@ -1,33 +1,73 @@
+from doubly_linked_list import DoublyLinkedList
+
 class LRUCache:
+
   """
-  Our LRUCache class keeps track of the max number of nodes it
-  can hold, the current number of nodes it is holding, a doubly-
-  linked list that holds the key-value entries in the correct 
-  order, as well as a storage dict that provides fast access
-  to every node stored in the cache.
+  Our LRUCache class keeps track of the max number of nodes it can hold, the current number of nodes it is holding, a doubly-linked list that holds the key-value entries in the correct order, as well as a storage dict that provides fast access to every node stored in the cache.
   """
   def __init__(self, limit=10):
-    pass
+    self.limit = limit
+    self.current_size = 0
+    self.order = DoublyLinkedList()
+    self.fast_access = {}
+
+  def search_and_move_to_front_if_exists(self, key):
+    found = False
+    current = self.order.head
+
+    while current:
+      if current.value == key:
+        self.order.move_to_front(current)
+        found = True
+      current = current.next
+
+    if not found:
+      self.order.add_to_head(key)
+      self.current_size += 1
 
   """
-  Retrieves the value associated with the given key. Also
-  needs to move the key-value pair to the end of the order
-  such that the pair is considered most-recently used.
-  Returns the value associated with the key or None if the
-  key-value pair doesn't exist in the cache. 
+  Retrieves the value associated with the given key. 
+  
+  Also needs to move the key-value pair to the end of the order such that the pair is considered most-recently used. 
+  
+  Returns the value associated with the key or None if the key-value pair doesn't exist in the cache. 
   """
   def get(self, key):
-    pass
+    if key in self.fast_access:
+      self.search_and_move_to_front_if_exists(key)
+      return self.fast_access[key]
 
   """
-  Adds the given key-value pair to the cache. The newly-
-  added pair should be considered the most-recently used
-  entry in the cache. If the cache is already at max capacity
-  before this entry is added, then the oldest entry in the
-  cache needs to be removed to make room. Additionally, in the
-  case that the key already exists in the cache, we simply 
-  want to overwrite the old value associated with the key with
-  the newly-specified value. 
+  Adds the given key-value pair to the cache.
+
+  The newly-added pair should be considered the most-recently used entry in the cache. 
+
+  If the cache is already at max capacity before this entry is added, then the oldest entry in the cache needs to be removed to make room. 
+
+  Additionally, in the case that the key already exists in the cache, we simply want to overwrite the old value associated with the key with the newly-specified value. 
   """
   def set(self, key, value):
-    pass
+    if self.current_size < self.limit:
+      self.fast_access.update({key: value})
+
+      self.search_and_move_to_front_if_exists(key)
+
+    else:
+      self.fast_access.update({key: value})
+
+      found = False
+      current = self.order.head
+
+      while current:
+        if current.value == key:
+          self.order.move_to_front(current)
+          found = True
+        current = current.next
+
+      if not found:
+        key_to_remove = self.order.remove_from_tail()
+        self.fast_access.pop(key_to_remove)
+
+        self.order.add_to_head(key)
+        self.current_size += 1
+

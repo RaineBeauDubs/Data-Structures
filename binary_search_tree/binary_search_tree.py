@@ -42,14 +42,11 @@ class BinarySearchTree:
       else:
         self = self.right
 
-
-
   def get_max(self):
     # `get_max` returns the maximum value in the binary search tree.
     while self.right is not None:
       self = self.right
     return self.value
-
 
   def for_each(self, cb):
     # `for_each` performs a traversal of _every_ node in the tree, executing the passed-in callback function on each tree node value. There is a myriad of ways to perform tree traversal; in this case any of them should work.
@@ -58,3 +55,22 @@ class BinarySearchTree:
       self.left.for_each(cb)
     if self.right:
       self.right.for_each(cb)
+
+
+
+  # Print all the values in order from low to high
+  # Hint:  Use a recursive, depth first traversal
+  def in_order_print(self, node):
+    if node:
+      self.left.in_order_print()
+      print(self.value)
+      self.right.in_order_print()
+
+
+  # Print the value of every node, starting with the given node, in an iterative breadth first traversal
+  def bft_print(self, node):
+    pass
+
+  # Print the value of every node, starting with the given node, in an iterative depth first traversal
+  def dft_print(self, node):
+    pass 

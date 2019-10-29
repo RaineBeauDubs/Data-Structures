@@ -30,11 +30,11 @@ Answer the following questions for each of the data structures you implemented a
 
 ## Doubly Linked List
 
-1. What is the runtime complexity of `ListNode.insert_after`?
+1. What is the runtime complexity of `ListNode.insert_after`? O(1)
 
-2. What is the runtime complexity of `ListNode.insert_before`?
+2. What is the runtime complexity of `ListNode.insert_before`? O(1)
 
-3. What is the runtime complexity of `ListNode.delete`?
+3. What is the runtime complexity of `ListNode.delete`? O(1)
 
 4. What is the runtime complexity of `DoublyLinkedList.add_to_head`?
 
